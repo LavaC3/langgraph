@@ -1,9 +1,10 @@
-import time
 import threading
-from unittest.mock import patch, MagicMock
+import time
+import urllib.request
+from unittest.mock import MagicMock, patch
+
 from langgraph_cli.analytics import log_command
 from langgraph_cli.constants import DEFAULT_TIMEOUT
-import urllib.request
 
 
 def test_log_command_default_daemon_and_timeout():
@@ -11,6 +12,7 @@ def test_log_command_default_daemon_and_timeout():
     to ensure backward compatibility with existing code"""
     mock_thread = MagicMock()
     with patch("threading.Thread", mock_thread):
+
         @log_command()
         def test_func():
             return "ok"
@@ -32,6 +34,7 @@ def test_log_command_custom_daemon_and_timeout():
     to ensure parameters are passed and take effect correctly"""
     mock_thread = MagicMock()
     with patch("threading.Thread", mock_thread):
+
         @log_command(timeout=8, daemon=False)
         def test_func():
             return "ok"

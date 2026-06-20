@@ -11,10 +11,9 @@ from typing import Any, TypedDict
 from langgraph_cli.constants import (
     DEFAULT_CONFIG,
     DEFAULT_PORT,
+    DEFAULT_TIMEOUT,
     SUPABASE_PUBLIC_API_KEY,
     SUPABASE_URL,
-    DEFAULT_TIMEOUT
-
 )
 from langgraph_cli.version import __version__
 
@@ -81,7 +80,7 @@ def log_data(data: LogData, timeout: int) -> None:
 
     try:
         urllib.request.urlopen(req, timeout=timeout)
-    except (urllib.error.URLError,TimeoutError):
+    except (urllib.error.URLError, TimeoutError):
         pass
 
 
@@ -137,14 +136,14 @@ def log_command(timeout=None, daemon=None):
                 }
                 # Spawn background thread to send telemetry asynchronously
                 background_thread = threading.Thread(
-                    target=log_data,
-                    args=(data, tout),
-                    daemon=dmn
+                    target=log_data, args=(data, tout), daemon=dmn
                 )
                 background_thread.start()
                 # Execute original CLI logic immediately, do not wait for telemetry thread
                 return func(*args, **kwargs)
+
             return wrapper
+
         return decorator
 
     # Case 1: Bare decorator call @log_command (timeout receives target func)

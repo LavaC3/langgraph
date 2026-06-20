@@ -23,7 +23,7 @@ jobs:
     env:
       HAS_LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY != '' }}
     steps:
-      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/checkout@v6
 
       - name: Set up Python
         uses: ./.github/actions/uv_setup
@@ -32,12 +32,13 @@ jobs:
           cache-suffix: sdk-py-integration
           working-directory: libs/sdk-py
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee # v4
-        if: ${{ !github.event.pull_request.head.repo.fork }}
+      - name: Login GHCR.io
+        uses: docker/login-action@650006c6eb7dba73a995cc03b0b2d7f5ca915bee
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_RO_TOKEN }}
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USER }}
+          password: ${{ secrets.GHCR_PAT }}
+          logout: true
 
       - name: Install dependencies
         shell: bash

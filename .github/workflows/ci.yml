@@ -156,19 +156,19 @@ jobs:
           fi
           echo "Schema check passed - no changes detected"
 
-#  integration-test:
-#    needs: changes
-#    if: needs.changes.outputs.python == 'true' || needs.changes.outputs.deps == 'true'
-#    name: CLI integration test
-#    uses: ./.github/workflows/_integration_test.yml
-#    secrets: inherit
-#
-#  sdk-py-integration-test:
-#    needs: changes
-#    if: needs.changes.outputs.sdk_py == 'true'
-#    name: "sdk-py integration test"
-#    uses: ./.github/workflows/_sdk_integration_test.yml
-#    secrets: inherit
+  integration-test:
+    needs: changes
+    if: needs.changes.outputs.python == 'true' || needs.changes.outputs.deps == 'true'
+    name: CLI integration test
+    uses: ./.github/workflows/_integration_test.yml
+    secrets: inherit
+
+  sdk-py-integration-test:
+    needs: changes
+    if: needs.changes.outputs.sdk_py == 'true'
+    name: "sdk-py integration test"
+    uses: ./.github/workflows/_sdk_integration_test.yml
+    secrets: inherit
 
   ci_success:
     name: "CI Success"
@@ -179,8 +179,8 @@ jobs:
         test-langgraph,
         check-sdk-methods,
         check-schema,
-#        integration-test,
-#        sdk-py-integration-test,
+        integration-test,
+        sdk-py-integration-test,
       ]
     if: |
       always()

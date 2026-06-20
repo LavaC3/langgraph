@@ -1,9 +1,10 @@
-import time
 import threading
-from unittest.mock import patch, MagicMock
+import time
+import urllib.request
+from unittest.mock import MagicMock, patch
+
 from langgraph_cli.analytics import log_command
 from langgraph_cli.constants import DEFAULT_TIMEOUT
-import urllib.request
 
 
 def test_log_command_default_daemon_and_timeout():
